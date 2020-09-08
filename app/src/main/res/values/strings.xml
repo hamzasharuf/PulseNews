@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pulse</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="fake_article">The brain utilizes about 300 calories per day to keep things in order. Over and above that baseline, cognitive tasks like learning, thinking, and calculating might cause an increase in metabolism in the brain. </string>
+    <string name="read_on_the_official_website">Read on the official website</string>
+</resources>
