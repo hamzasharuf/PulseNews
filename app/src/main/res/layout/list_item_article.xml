@@ -20,19 +20,16 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:onClick="@{() -> clickListener.onClick(item)}"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp">
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="16dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_article_source_image"
                 android:layout_width="@dimen/article_source_avatar_width"
                 android:layout_height="@dimen/article_source_avatar_height"
@@ -40,20 +37,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/aljazeera_icon" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_article_source_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{item.source_name}"
-                android:textColor="@color/article_source_name"
-                android:textSize="16sp"
+                style="@style/TextAppearance.ArticleSourceName"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_article_source_image"
                 app:layout_constraintStart_toEndOf="@+id/iv_article_source_image"
                 app:layout_constraintTop_toTopOf="@+id/iv_article_source_image"
                 tools:text="Aljazeera News" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_article_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,10 +57,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/iv_article_source_image"
                 app:relativeDate="@{item.publishedAt}"
-                android:textSize="12sp"
+                android:textSize="@dimen/article_relative_date_font_size"
                 tools:text="2 minutes ago"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,12 +68,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_article_source_image"
                 android:layout_marginTop="16dp"
+                style="@style/TextAppearance.Body1"
+                android:textStyle="bold"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
                 android:text="@{item.title}"
                 tools:text="The Quest to Liberate $300K of Bitcoin From an Old ZIP File" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_article_logo"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"

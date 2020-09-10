@@ -1,7 +1,6 @@
 package com.hamzasharuf.pulse.utils.adapters.bindings
 
 import android.content.res.Configuration
-import android.text.format.DateUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -10,8 +9,6 @@ import coil.transform.GrayscaleTransformation
 import coil.transform.RoundedCornersTransformation
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.utils.DateFormatter
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Load image from the network or cache with placeholder and error images
@@ -36,18 +33,25 @@ fun loadImage(imageView: ImageView, url: String?) {
 }
 
 /**
- *  Date from and date to
+ *  Get Relative Date (Yesterday, 2 hours ago, last week, ...etc)
  */
 @BindingAdapter("relativeDate")
 fun relativeDate(textView: TextView,inputDate: String?) {
     if (inputDate != null) {
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
-        val date = parser.parse(inputDate)!!
-
-
-        // Get relative date (e.g. Now, 2 minutes ago, ...etc)
-        val relativeDate = DateFormatter.getRelativeDate(date)
+        val relativeDate = DateFormatter.getRelativeDate(inputDate)
         textView.text = relativeDate
+    }
+
+}
+
+/**
+ *  Get Calendar Date (Thursday, 6 August 2020)
+ */
+@BindingAdapter("calendarDate")
+fun date(textView: TextView,inputDate: String?) {
+    if (inputDate != null) {
+        val calendarDate = DateFormatter.getCalendarDate(inputDate)
+        textView.text = calendarDate
     }
 
 }

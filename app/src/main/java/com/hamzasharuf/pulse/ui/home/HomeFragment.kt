@@ -14,8 +14,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.databinding.FragmentHomeBinding
-import com.hamzasharuf.pulse.utils.adapters.lists.NewsAdapter
+import com.hamzasharuf.pulse.utils.MarginItemDecoration
 import com.hamzasharuf.pulse.utils.Status
+import com.hamzasharuf.pulse.utils.adapters.lists.NewsAdapter
 import com.hamzasharuf.pulse.utils.adapters.lists.NewsClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -25,7 +26,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapter: NewsAdapter
+    private lateinit var mAdapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,21 +45,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        rv_news_recycler.layoutManager = LinearLayoutManager(requireContext())
-        rv_news_recycler.setHasFixedSize(true)
-        adapter = NewsAdapter(NewsClickListener {
+
+        // Setup the adapter
+        mAdapter = NewsAdapter(NewsClickListener {
             val action = HomeFragmentDirections.actionNavigationHomeToArticleDetailsFragment(it)
             findNavController().navigate(action)
         })
-        rv_news_recycler.adapter = adapter
+
+        // Setup the Recyclerview
+        rv_news_recycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            addItemDecoration(
+                MarginItemDecoration(resources.getDimension(R.dimen.news_recycler_item_margins).toInt())
+            )
+            adapter = mAdapter
+        }
     }
 
     private fun setObservers() {
-        viewModel.news.observe(requireActivity(), Observer {
+        viewModel.news.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     pb_news_progressbar.visibility = View.GONE
-                    adapter.submitList(it.data)
+                    mAdapter.submitList(it.data)
                 }
                 Status.ERROR -> {
                     pb_news_progressbar.visibility = View.GONE
@@ -73,6 +83,6 @@ class HomeFragment : Fragment() {
     }
     
     companion object{
-        private const val TAG = "mDebug"
+        private const val TAG = "debug: HomeFragment"
     }
 }

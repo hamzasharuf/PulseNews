@@ -5,7 +5,7 @@ import com.hamzasharuf.pulse.data.api.responses.source.SourceInfoResponse
 import com.hamzasharuf.pulse.data.api.responses.source.SourcesResponse
 import javax.inject.Inject
 
-class NewsSourceMapper @Inject constructor() : EntityMapper<List<NewsSource>, SourcesResponse> {
+class NewsSourceNetworkMapper @Inject constructor() : EntityMapper<List<NewsSource>, SourcesResponse> {
     override fun mapFromEntity(entity: List<NewsSource>): SourcesResponse {
         val sources = mutableListOf<SourceInfoResponse>()
         entity.forEach {

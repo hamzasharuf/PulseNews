@@ -6,7 +6,7 @@ import com.hamzasharuf.pulse.data.api.responses.everything.SourceResponse
 import com.hamzasharuf.pulse.data.models.Article
 import javax.inject.Inject
 
-class ArticlesMapper @Inject constructor() : EntityMapper<Article, ArticleResponse> {
+class ArticleNetworkMapper @Inject constructor() : EntityMapper<Article, ArticleResponse> {
 
     override fun mapFromEntity(entity: Article): ArticleResponse =
         ArticleResponse(
@@ -40,6 +40,6 @@ class ArticlesMapper @Inject constructor() : EntityMapper<Article, ArticleRespon
 
 
     companion object {
-        private const val TAG = "ArticlesMapper"
+        private const val TAG = "ArticlesNetworkMapper"
     }
 }

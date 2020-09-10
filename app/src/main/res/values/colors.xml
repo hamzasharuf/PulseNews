@@ -53,5 +53,5 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="article_source_name">#0379BD</color>
+    <color name="recyclerBackground">#D6D6D6</color>
 </resources>

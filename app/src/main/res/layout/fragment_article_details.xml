@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_article_details_source_image"
                     android:layout_width="@dimen/article_source_avatar_width"
                     android:layout_height="@dimen/article_source_avatar_height"
@@ -32,53 +32,66 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_article_details_source_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@{item.source_name}"
-                    android:textColor="@color/article_source_name"
-                    android:textSize="16sp"
+                    style="@style/TextAppearance.ArticleSourceName"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_article_details_source_image"
                     app:layout_constraintStart_toEndOf="@+id/iv_article_details_source_image"
                     app:layout_constraintTop_toTopOf="@+id/iv_article_details_source_image"
                     tools:text="Aljazeera News" />
 
-                <TextView
-                    android:id="@+id/tv_article_details_time"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_article_details_relative_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    style="@style/TextAppearance.Body1"
+                    android:textSize="@dimen/article_relative_date_font_size"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_article_details_source_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/iv_article_details_source_image"
                     app:relativeDate="@{item.publishedAt}"
                     tools:text="2 minutes ago" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_article_details_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@{item.title}"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    style="@style/TextAppearance.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_article_details_source_image"
                     tools:text="The Quest to Liberate $300K of Bitcoin From an Old ZIP File" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_article_details_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_article_details_title"
+                    android:layout_marginTop="8dp"
+                    app:calendarDate="@{item.publishedAt}"
+                    android:textSize="@dimen/article_relative_date_font_size"
+                    style="@style/TextAppearance.Body1"
+                    tools:text="22 December 2020"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_article_details_logo"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_marginTop="16dp"
                     android:scaleType="centerCrop"
                     app:imageLoad="@{item.urlToImage}"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_article_details_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_article_details_date"
                     tools:src="@drawable/fake_article_image" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -88,16 +101,16 @@
                     android:layout_marginTop="16dp"
                     android:textAppearance="?attr/textAppearanceBody1"
                     android:justificationMode="inter_word"
-                    android:textSize="20sp"
                     android:text="@{item.content}"
+                    style="@style/TextAppearance.Body1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_article_details_logo"
                     tools:text="@string/fake_article" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_read_on_official_website"
-                    android:layout_width="250dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/read_on_the_official_website"

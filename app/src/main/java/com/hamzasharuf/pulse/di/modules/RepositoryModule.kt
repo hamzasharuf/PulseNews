@@ -1,10 +1,13 @@
 package com.hamzasharuf.pulse.di.modules
 
 import com.hamzasharuf.pulse.data.api.NewsApi
+import com.hamzasharuf.pulse.data.database.AppDatabase
+import com.hamzasharuf.pulse.data.database.Dao.NewsDao
+import com.hamzasharuf.pulse.data.mappers.ArticleDatabaseMapper
 import com.hamzasharuf.pulse.data.repositories.NewsRepository
 import com.hamzasharuf.pulse.data.repositories.NewsRepositoryImpl
-import com.hamzasharuf.pulse.data.mappers.ArticlesMapper
-import com.hamzasharuf.pulse.data.mappers.NewsSourceMapper
+import com.hamzasharuf.pulse.data.mappers.ArticleNetworkMapper
+import com.hamzasharuf.pulse.data.mappers.NewsSourceNetworkMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,9 +22,17 @@ object RepositoryModule {
     @Singleton
     fun provideNewsRepository(
         newsApi: NewsApi,
-        newsSourceMapper: NewsSourceMapper,
-        articlesMapper: ArticlesMapper
+        newsSourceNetworkMapper: NewsSourceNetworkMapper,
+        articleNetworkMapper: ArticleNetworkMapper,
+        articleDatabaseMapper: ArticleDatabaseMapper,
+        appDatabase: AppDatabase
     ): NewsRepository{
-        return NewsRepositoryImpl(newsApi, newsSourceMapper, articlesMapper)
+        return NewsRepositoryImpl(
+            newsApi,
+            appDatabase.newsDao,
+            newsSourceNetworkMapper,
+            articleNetworkMapper,
+            articleDatabaseMapper
+        )
     }
 }

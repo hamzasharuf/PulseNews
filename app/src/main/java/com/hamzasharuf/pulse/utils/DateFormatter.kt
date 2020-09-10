@@ -1,5 +1,7 @@
 package com.hamzasharuf.pulse.utils
 
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -28,7 +30,9 @@ object DateFormatter {
     private const val MONTH_MILLIS: Long = 4 * WEEK_MILLIS
     private const val YEAR_MILLIS: Long = 12 * MONTH_MILLIS
 
-    fun getRelativeDate(date: Date): String {
+    fun getRelativeDate(apiDate: String): String {
+
+        val date = getDateFromApi(apiDate)
 
         var time = date.time
         if (time < 1000000000000L) {
@@ -58,9 +62,22 @@ object DateFormatter {
         }
     }
 
+    fun getCalendarDate(apiDate: String): String{
+        val date = getDateFromApi(apiDate)
+        val formatter = SimpleDateFormat("EEEE, d MMMM yyyy", Locale.US)
+        return formatter.format(date)
+    }
+
     private fun currentDate(): Date {
         val calendar = Calendar.getInstance()
         return calendar.time
     }
+
+    private fun getDateFromApi(apiDate: String) :Date{
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
+        return parser.parse(apiDate)!!
+    }
+
+
 
 }

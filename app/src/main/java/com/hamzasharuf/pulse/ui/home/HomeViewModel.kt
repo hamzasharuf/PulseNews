@@ -37,7 +37,7 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun getNews(){
         viewModelScope.launch(IO){
-            val newsList = newsRepository.getNews(NewsRequest(keyword = "egypt")).onEach {
+            val newsList = newsRepository.getNews(NewsRequest(keyword = "Turkey")).onEach {
                 _news.value = it
             }.launchIn(viewModelScope)
         }
