@@ -1,7 +1,7 @@
 package com.hamzasharuf.pulse.data.api.interceptors
 
 import com.hamzasharuf.networkmonitor.ConnectivityStateHolder
-import com.hamzasharuf.pulse.utils.Exceptions.NoInternetException
+import com.hamzasharuf.pulse.utils.exceptions.NoInternetException
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

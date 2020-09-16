@@ -10,40 +10,41 @@ import com.hamzasharuf.pulse.data.models.NewsSource
 import com.hamzasharuf.pulse.data.repositories.NewsRepository
 import com.hamzasharuf.pulse.utils.Resource
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class HomeViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
-    private val _sources: MutableLiveData<Resource<List<NewsSource>>> = MutableLiveData()
-    val sources: LiveData<Resource<List<NewsSource>>>
-        get() = _sources
-
+    // Provide news through a LiveData
     private val _news: MutableLiveData<Resource<List<Article>>> = MutableLiveData()
     val news: LiveData<Resource<List<Article>>>
         get() = _news
 
-    fun getSources(){
-        viewModelScope.launch(IO){
-            val sourcesList = newsRepository.getNewsSources(SourcesRequest()).onEach {
-                _sources.value = it
-            }.launchIn(viewModelScope)
-        }
-    }
 
-    fun getNews(){
-        viewModelScope.launch(IO){
-            val newsList = newsRepository.getNews(NewsRequest(keyword = "Turkey")).onEach {
+    // Prevent news from being fetched over and over every time the fragment is loaded
+    var isNewsAvailable = false
+
+    /**
+     * Fetch the news from the api and cache it in the Database
+     */
+    fun getNews() {
+        viewModelScope.launch(IO) {
+            newsRepository.getNews(NewsRequest(keyword = "Madrid")).onEach {
                 _news.value = it
-            }.launchIn(viewModelScope)
+            }
+                .onCompletion { isNewsAvailable = true }
+                .launchIn(viewModelScope)
         }
     }
 
-    companion object{
+    companion object {
         private const val TAG = "HomeViewModel"
     }
 }

@@ -9,6 +9,6 @@
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.hamzasharuf.pulse.ui.notifications.NotificationsFragment"
-        android:label="fragment_notifications"
+        android:label="@string/notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

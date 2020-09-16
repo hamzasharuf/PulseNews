@@ -1,4 +1,4 @@
-package com.hamzasharuf.pulse.utils.adapters.lists
+package com.hamzasharuf.pulse.utils.adapters.lists.news
 
 import com.hamzasharuf.pulse.data.models.Article
 import javax.inject.Inject

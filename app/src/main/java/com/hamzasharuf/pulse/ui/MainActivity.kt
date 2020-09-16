@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val binding by activityBinding<ActivityMainBinding>(R.layout.activity_main)
+    private val binding: ActivityMainBinding by activityBinding(R.layout.activity_main)
     private val viewModel: MainActivityViewModel by viewModels()
     private var currentNavController: LiveData<NavController>? = null
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val navGraphIds = listOf(
             R.navigation.navigation_home,
             R.navigation.navigation_notifications,
-            R.navigation.navigation_dashboard
+            R.navigation.navigation_sources
         )
 
         // Setup the bottom navigation view with a list of navigation graphs

@@ -1,4 +1,4 @@
-package com.hamzasharuf.pulse.utils.adapters.lists
+package com.hamzasharuf.pulse.utils.adapters.lists.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hamzasharuf.pulse.data.models.Article
 import com.hamzasharuf.pulse.databinding.ListItemArticleBinding
 import java.lang.ClassCastException
-import javax.inject.Inject
 
 /*
     class NewsAdapter(private val onItemClick:(Article) -> Unit)

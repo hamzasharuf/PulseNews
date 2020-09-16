@@ -15,11 +15,13 @@ import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.databinding.FragmentHomeBinding
 import com.hamzasharuf.pulse.utils.MarginItemDecoration
 import com.hamzasharuf.pulse.utils.Status
-import com.hamzasharuf.pulse.utils.adapters.lists.NewsAdapter
-import com.hamzasharuf.pulse.utils.adapters.lists.NewsClickListener
+import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsAdapter
+import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
@@ -40,7 +42,7 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupRecycler()
         setObservers()
-        viewModel.getNews()
+        if (!viewModel.isNewsAvailable) viewModel.getNews()
     }
 
     private fun setupRecycler() {

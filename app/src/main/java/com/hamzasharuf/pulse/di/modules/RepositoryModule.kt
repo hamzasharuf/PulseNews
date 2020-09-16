@@ -7,6 +7,7 @@ import com.hamzasharuf.pulse.data.mappers.ArticleDatabaseMapper
 import com.hamzasharuf.pulse.data.repositories.NewsRepository
 import com.hamzasharuf.pulse.data.repositories.NewsRepositoryImpl
 import com.hamzasharuf.pulse.data.mappers.ArticleNetworkMapper
+import com.hamzasharuf.pulse.data.mappers.NewsSourceDatabaseMapper
 import com.hamzasharuf.pulse.data.mappers.NewsSourceNetworkMapper
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,7 @@ object RepositoryModule {
     fun provideNewsRepository(
         newsApi: NewsApi,
         newsSourceNetworkMapper: NewsSourceNetworkMapper,
+        newsSourceDatabaseMapper: NewsSourceDatabaseMapper,
         articleNetworkMapper: ArticleNetworkMapper,
         articleDatabaseMapper: ArticleDatabaseMapper,
         appDatabase: AppDatabase
@@ -30,7 +32,9 @@ object RepositoryModule {
         return NewsRepositoryImpl(
             newsApi,
             appDatabase.newsDao,
+            appDatabase.sourcesDao,
             newsSourceNetworkMapper,
+            newsSourceDatabaseMapper,
             articleNetworkMapper,
             articleDatabaseMapper
         )

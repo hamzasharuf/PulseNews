@@ -6,4 +6,7 @@
 
     <string name="fake_article">The brain utilizes about 300 calories per day to keep things in order. Over and above that baseline, cognitive tasks like learning, thinking, and calculating might cause an increase in metabolism in the brain. </string>
     <string name="read_on_the_official_website">Read on the official website</string>
+    <string name="add">Add</string>
+    <string name="notifications">Notifications</string>
+    <string name="my_sources">My Sources</string>
 </resources>

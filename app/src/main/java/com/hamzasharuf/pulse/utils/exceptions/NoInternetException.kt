@@ -1,4 +1,4 @@
-package com.hamzasharuf.pulse.utils.Exceptions
+package com.hamzasharuf.pulse.utils.exceptions
 
 import java.lang.Exception
 

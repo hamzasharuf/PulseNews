@@ -10,7 +10,7 @@
             type="com.hamzasharuf.pulse.data.models.Article" />
         <variable
             name="clickListener"
-            type="com.hamzasharuf.pulse.utils.adapters.lists.NewsClickListener" />
+            type="com.hamzasharuf.pulse.utils.adapters.lists.news.NewsClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
