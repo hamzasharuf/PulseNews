@@ -1,14 +1,14 @@
 package com.hamzasharuf.pulse.ui.fragments
 
-import com.hamzasharuf.pulse.utils.Constants
+import com.hamzasharuf.pulse.utils.NewsSection
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SocietyFragment : BaseArticlesFragment() {
+class NewsFragment(val section: NewsSection) : BaseArticlesFragment() {
 
     override fun loadData(isRefreshing: Boolean) {
         if (isRefreshing || !viewModel.isNewsAvailable)
-            viewModel.getAllNews(Constants.SOCIETY_SECTION)
+            viewModel.getNews(section)
     }
 
 }

@@ -6,10 +6,12 @@ import androidx.lifecycle.*
 import com.hamzasharuf.pulse.data.api.requests.NewsRequest
 import com.hamzasharuf.pulse.data.models.News
 import com.hamzasharuf.pulse.data.repositories.NewsRepository
-import com.hamzasharuf.pulse.utils.Constants
+import com.hamzasharuf.pulse.utils.NewsSection
 import com.hamzasharuf.pulse.utils.Resource
+import com.hamzasharuf.pulse.utils.exceptions.NoInternetException
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.lang.IllegalArgumentException
 
 class BaseArticlesViewModel @ViewModelInject constructor(
@@ -23,41 +25,33 @@ class BaseArticlesViewModel @ViewModelInject constructor(
     var isNewsAvailable = false
 
 
-    fun getAllNews(section: String) {
+    fun getNews(section: NewsSection) {
         _allNews.postValue(Resource.loading())
         viewModelScope.launch(IO) {
             kotlin.runCatching {
                 val newsList = when(section){
-                    Constants.HOME_SECTION -> newsRepository.fetchAllNews(NewsRequest())
-                    Constants.WORLD_SECTION -> newsRepository.fetchWorldNews(NewsRequest())
-                    Constants.SCIENCE_SECTION -> newsRepository.fetchScienceNews(NewsRequest())
-                    Constants.SPORT_SECTION -> newsRepository.fetchSportNews(NewsRequest())
-                    Constants.ENVIRONMENT_SECTION -> newsRepository.fetchEnvironmentNews(NewsRequest())
-                    Constants.SOCIETY_SECTION -> newsRepository.fetchSocietyNews(NewsRequest())
-                    Constants.FASHION_SECTION -> newsRepository.fetchFashionNews(NewsRequest())
-                    Constants.BUSINESS_SECTION -> newsRepository.fetchBusinessNews(NewsRequest())
-                    Constants.CULTURE_SECTION -> newsRepository.fetchCultureNews(NewsRequest())
-                    else -> throw IllegalArgumentException("Unknown section: $section")
+                    NewsSection.HOME -> newsRepository.fetchAllNews(NewsRequest())
+                    NewsSection.WORLD -> newsRepository.fetchWorldNews(NewsRequest())
+                    NewsSection.SCIENCE -> newsRepository.fetchScienceNews(NewsRequest())
+                    NewsSection.SPORT -> newsRepository.fetchSportNews(NewsRequest())
+                    NewsSection.ENVIRONMENT -> newsRepository.fetchEnvironmentNews(NewsRequest())
+                    NewsSection.SOCIETY -> newsRepository.fetchSocietyNews(NewsRequest())
+                    NewsSection.FASHION -> newsRepository.fetchFashionNews(NewsRequest())
+                    NewsSection.BUSINESS -> newsRepository.fetchBusinessNews(NewsRequest())
+                    NewsSection.CULTURE -> newsRepository.fetchCultureNews(NewsRequest())
                 }
                 _allNews.postValue(Resource.success(newsList))
                 isNewsAvailable = true
             }.onFailure {
-                _allNews.postValue(Resource.error("Error --> $it"))
+                Timber.d("Error --> $it")
+                when(it){
+                    is NoInternetException -> _allNews.postValue(Resource.error("No internet Connection"))
+                    else -> _allNews.postValue(Resource.error("Something went wrong"))
+                }
+
             }
         }
     }
 
-    fun getFashionNews() {
-        _allNews.postValue(Resource.loading())
-        viewModelScope.launch(IO) {
-            kotlin.runCatching {
-                val newsList = newsRepository.fetchAllNews(NewsRequest("fashion"))
-                _allNews.postValue(Resource.success(newsList))
-                isNewsAvailable = true
-            }.onFailure {
-                _allNews.postValue(Resource.error("Error --> $it"))
-            }
-        }
-    }
 
 }

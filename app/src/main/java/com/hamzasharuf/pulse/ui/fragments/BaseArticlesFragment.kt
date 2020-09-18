@@ -58,7 +58,6 @@ abstract class BaseArticlesFragment : Fragment() {
                     binding.swipeRefresh.isRefreshing = false
                     binding.loadingIndicator.visibility = View.GONE
                     Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                    Timber.d("setupObservers: ${it.message}")
                 }
                 Status.LOADING -> {
                     // binding.loadingIndicator.visibility = View.VISIBLE
@@ -75,7 +74,7 @@ abstract class BaseArticlesFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.swipe_color_2),
             ContextCompat.getColor(requireContext(), R.color.swipe_color_3),
             ContextCompat.getColor(requireContext(), R.color.swipe_color_4)
-        );
+        )
 
         binding.swipeRefresh.setOnRefreshListener {
             loadData(true)
