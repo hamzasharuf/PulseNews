@@ -64,7 +64,8 @@ object DateFormatter {
 
     fun getCalendarDate(apiDate: String): String{
         val date = getDateFromApi(apiDate)
-        val formatter = SimpleDateFormat("EEEE, d MMMM yyyy", Locale.US)
+        val formatter = SimpleDateFormat("EEEE, d MMMM yyyy", Locale.getDefault())
+        formatter.timeZone = TimeZone.getDefault()
         return formatter.format(date)
     }
 
@@ -74,7 +75,8 @@ object DateFormatter {
     }
 
     private fun getDateFromApi(apiDate: String) :Date{
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
+        parser.timeZone = TimeZone.getTimeZone("UTC")
         return parser.parse(apiDate)!!
     }
 
