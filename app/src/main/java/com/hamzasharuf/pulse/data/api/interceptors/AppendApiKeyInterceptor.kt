@@ -8,7 +8,7 @@ import javax.inject.Inject
 class AppendApiKeyInterceptor @Inject constructor() : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val url = chain.request().url.newBuilder().addQueryParameter("apiKey", API_KEY).build()
+        val url = chain.request().url.newBuilder().addQueryParameter("api-key", API_KEY).build()
         val newRequest = chain.request().newBuilder().url(url).build()
         return chain.proceed(newRequest)
     }

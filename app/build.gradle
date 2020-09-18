@@ -71,20 +71,21 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
 
-    // Network Monitoring
-    implementation 'com.github.hamzasharuf:NetworkMonitor:1.1'
-
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:2.28-alpha"
     kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'   // For Jetpack Injection
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'    // For Jetpack Injection
 
-    // Coil (Image Loading)
-    implementation "io.coil-kt:coil:0.13.0"
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Lottie Animations
     implementation 'com.airbnb.android:lottie:3.4.2'
+
+    // Timber (For Logging)
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Testing
     testImplementation 'junit:junit:4.13'

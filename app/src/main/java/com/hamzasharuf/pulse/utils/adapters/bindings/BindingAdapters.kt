@@ -1,12 +1,12 @@
 package com.hamzasharuf.pulse.utils.adapters.bindings
 
 import android.content.res.Configuration
+import android.os.Build
+import android.text.Html
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import coil.load
-import coil.transform.GrayscaleTransformation
-import coil.transform.RoundedCornersTransformation
+import com.bumptech.glide.Glide
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.utils.DateFormatter
 
@@ -15,21 +15,11 @@ import com.hamzasharuf.pulse.utils.DateFormatter
  */
 @BindingAdapter("imageLoad")
 fun loadImage(imageView: ImageView, url: String?) {
-    url?.let {
-        imageView.load(it) {
-            crossfade(true)
-            fallback(R.color.black)
-            placeholder(R.color.colorBorder)
-            when (imageView.context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_NO -> {
-                    transformations(RoundedCornersTransformation(0.0F))
-                } // Night mode is not active, we're using the light theme
-                Configuration.UI_MODE_NIGHT_YES -> {
-                    transformations(GrayscaleTransformation())
-                } // Night mode is active, we're using dark theme
-            }
-        }
-    }
+    Glide.with(imageView.context)
+        .load(url)
+        .centerCrop()
+        .placeholder(R.color.gray)
+        .into(imageView)
 }
 
 /**
@@ -53,5 +43,15 @@ fun date(textView: TextView,inputDate: String?) {
         val calendarDate = DateFormatter.getCalendarDate(inputDate)
         textView.text = calendarDate
     }
+}
 
+@BindingAdapter("htmlText")
+fun htmlText(textView: TextView, text: String?){
+    if (text != null){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.text = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT).toString()
+        } else {
+            textView.text = Html.fromHtml(text).toString()
+        }
+    }
 }

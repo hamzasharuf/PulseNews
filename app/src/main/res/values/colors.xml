@@ -1,57 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <!-- BASE COLOR -->
+    <color name="colorPrimary">#005689</color>
+    <color name="colorPrimaryDark">#005689</color>
+    <color name="colorAccent">#FF4081</color>
 
-    <color name="colorPrimary">#0061BF</color>
-    <color name="colorPrimaryDark">#014384</color>
-    <color name="colorOnPrimary">@android:color/white</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="swipe_color_1">#4CAF50</color>
+    <color name="swipe_color_2">#03A9F4</color>
+    <color name="swipe_color_3">#FFC107</color>
+    <color name="swipe_color_4">#FF5722</color>
 
-    <color name="colorSurface">@android:color/white</color>
+    <color name="color_section">#4CAF50</color>
+    <color name="color_author">#8E24AA</color>
 
-    <!-- Title -->
-    <color name="colorOnPrimarySurface">#1A2025</color>
+    <!-- Colors for settings of color theme-->
+    <color name="white">#ffffff</color>
+    <color name="violet">#9c27b0</color>
+    <color name="light_green">#8bc34a</color>
 
-    <!-- Text -->
-    <color name="colorOnSurface">#6A6D71</color>
+    <!-- Colors for gradient.xml file -->
+    <color name="gradient_center_color">#880d0d0f</color>
+    <color name="gradient_end_color">#885d5d5e</color>
+    <color name="gradient_start_color">#880f0f10</color>
 
-    <!-- Page indicator -->
-    <color name="colorPageIndicatorBackground">#E2E2E2</color>
-    <color name="colorPageIndicatorActive">#1A2025</color>
+    <color name="color_trail_text">#102027</color>
+    <color name="color_date_text">#a4a4a4</color>
 
-    <!-- Header list item -->
-    <color name="colorHeaderBackground">#E2E2E2</color>
-    <color name="colorHeaderTitle">#5F6368</color>
+    <color name="color_app_bar_text">#005689</color>
+    <color name="color_tab_text">#a7c0cd</color>
 
-    <!-- Border -->
-    <color name="colorBorder">#E2E2E2</color>
-    <color name="colorControlNormal">#9E9E9E</color>
-    <color name="colorControlHighlight">#3C4043</color>
-    <color name="colorControlActivated">#5F6368</color>
-    <color name="colorTransparent">#34000000</color>
-
-    <!-- BUTTON -->
-    <color name="colorButton">#699E3F</color>
-    <color name="colorButtonActive">#265F27</color>
-
-    <!-- SVG VECTORS -->
-    <color name="colorLogoChest">#0061BF</color>
-    <color name="colorLogoHand">#014D9C</color>
-    <color name="colorLogoHair">#1A2025</color>
-    <color name="colorLogoGrey">#D6D6D6</color>
-    <color name="colorLogoGreyLight">#E9E9E9</color>
-    <color name="colorLogoGreyDark">#A8A8A8</color>
-    <color name="colorLogoDark">#5F6368</color>
-    <color name="colorLogoFace">#EAD8C5</color>
-    <color name="colorLogoNeck">#EAC3A2</color>
-    <color name="colorLogoBody">#F9AA8F</color>
-    <color name="colorLogoBodyFace">#FBBEA0</color>
-    <color name="colorLogoOrange">#f47d2c</color>
-    <color name="colorLogoOrangeDark">#f36820</color>
-    <color name="colorLogoGreen">#38826d</color>
+    <color name="nav_bar_start">#7db1ec</color>
+    <color name="nav_bar_end">#002e5b</color>
 
     <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
-
-    <color name="recyclerBackground">#D6D6D6</color>
+    <color name="gray">#BCBCBC</color>
 </resources>

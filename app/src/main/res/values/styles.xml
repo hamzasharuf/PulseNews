@@ -1,145 +1,95 @@
 <resources>
 
-    <!-- * * * * * * * * * * * BASE THEME * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
-        <!-- Customize app's theme here. -->
-        <item name="android:windowContentTransitions">true</item>
-
-        <!-- * * * * * * BASE COLORS * * * * * * -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
-        <!-- Background -->
-        <item name="colorSurface">@color/colorSurface</item>
+        <!-- Change Action Bar title text color  -->
+        <item name="titleTextColor">@color/color_app_bar_text</item>
+        <item name="subtitleTextColor">@color/color_app_bar_text</item>
 
-        <!-- Title -->
-        <item name="colorOnPrimarySurface">@color/colorOnPrimarySurface</item>
+        <!-- Set Navigation drawer icon color-->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
-        <!-- Text -->
-        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
-        <!-- Border -->
-        <item name="colorOnSecondary">@color/colorBorder</item>
-        <item name="colorControlNormal">@color/colorControlNormal</item>
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
-        <item name="colorControlActivated">@color/colorControlActivated</item>
-
-        <!-- * * * * * * STYLES * * * * * * -->
-        <!-- ACTION MENU -->
-        <item name="android:popupMenuStyle">@style/ToolbarPopupMenuStyle</item>
-
-        <!-- BOTTOM NAVIGATION -->
-        <item name="bottomNavigationStyle">@style/BottomMenuStyle</item>
-
-        <!-- HEADLINE -->
-        <item name="textAppearanceHeadline1">@style/TextAppearance.Headline</item>
-
-        <!-- BODY 1 -->
-        <item name="textAppearanceBody1">@style/TextAppearance.Body1</item>
-
-        <!-- FONTS -->
-        <item name="android:fontFamily">@font/questrial</item>
-        <item name="fontFamily">@font/questrial</item>
-
-        <!-- BOTTOM SHEET -->
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
-
+        <!-- Change Action Bar overflow icon (Options Menu button) color -->
+        <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
     </style>
 
-    <!-- * * * * * * * * * * * TEXT APPEARANCE * * * * * * * * * * * * * -->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <!-- HEADLINE -->
-    <style name="TextAppearance.Headline" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textSize">@dimen/dimen_22sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Theme of the settings -->
+    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Set Navigation drawer icon color -->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/color_app_bar_text</item>
+    </style>
+
+    <!-- Change Action Bar overflow icon (Options Menu button) color -->
+    <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/color_app_bar_text</item>
+    </style>
+
+    <!-- Style for a tab that displays a category name -->
+    <style name="CategoryTab" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/color_app_bar_text</item>
+        <item name="tabSelectedTextColor">@color/color_app_bar_text</item>
+        <item name="tabTextAppearance">@style/CategoryTabTextAppearance</item>
+    </style>
+
+    <!-- Text appearance style for a category tab -->
+    <style name="CategoryTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/color_tab_text</item>
+    </style>
+
+    <!-- Style for title TextView-->
+    <style name="TitleTextViewStyle">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <!-- Style for Section, Author, and Date TextView -->
+    <style name="SectionAuthorDateStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Style for section TextView -->
+    <style name="SectionTextViewStyle" parent="@style/SectionAuthorDateStyle">
         <item name="android:ellipsize">end</item>
-    </style>
-
-    <!-- BODY TEXT1 -->
-    <style name="TextAppearance.Body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/colorOnSurface</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">@dimen/dimen_16sp</item>
-    </style>
-
-    <!--    ARTICLE SOURCE NAME-->
-    <style name="TextAppearance.ArticleSourceName" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textSize">@dimen/dimen_16sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <!-- * * * * * * * * * * * TOOLBAR * * * * * * * * * * * * -->
-
-    <!-- Toolbar style -->
-    <style name="ToolbarStyle" parent="ThemeOverlay.MaterialComponents.ActionBar">
-        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
-        <item name="android:textColorSecondary">?attr/colorOnPrimary</item>
-        <item name="android:background">?attr/colorPrimary</item>
-    </style>
-
-    <!-- Toolbar Title style -->
-    <style name="ToolbarTitleStyle" parent="TextAppearance.Headline">
-        <item name="android:textSize">@dimen/dimen_18sp</item>
-        <item name="android:letterSpacing">0.1</item>
-        <item name="fontFamily">@font/questrial</item>
-    </style>
-
-    <!-- Toolbar Sub Title style -->
-    <style name="ToolbarSubTitleStyle" parent="ToolbarTitleStyle">
-        <item name="android:textSize">@dimen/dimen_16sp</item>
-    </style>
-
-    <!-- Popup Menu style -->
-    <style name="ToolbarPopupMenuStyle" parent="Widget.AppCompat.Light.PopupMenu">
-        <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textSize">@dimen/dimen_16sp</item>
-        <item name="android:letterSpacing">0.1</item>
-        <item name="fontFamily">@font/questrial</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-    </style>
-
-
-    <!-- * * * * * * * * * * * MENU * * * * * * * * * * * -->
-
-    <!-- Bottom Menu style -->
-    <style name="BottomMenuStyle" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:background">?attr/colorSurface</item>
-        <item name="itemTextColor">?attr/colorOnSurface</item>
-        <item name="itemTextAppearanceActive">@style/BottomMenuActiveTextStyle</item>
-        <item name="itemTextAppearanceInactive">@style/BottomMenuActiveTextStyle</item>
-    </style>
-
-    <!-- Bottom Menu text style (active) -->
-    <style name="BottomMenuActiveTextStyle" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textSize">@dimen/dimen_12sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textAlignment">center</item>
         <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/color_section</item>
+    </style>
+
+    <!-- Style for trailText TextView -->
+    <style name="TrailTextViewStyle">
         <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:maxLines">6</item>
+        <item name="android:textColor">@color/color_trail_text</item>
     </style>
 
-    <!-- Side Menu text style (active) -->
-    <style name="SideMenuTextStyle" parent="BottomMenuActiveTextStyle">
-        <item name="android:textSize">@dimen/dimen_15sp</item>
-        <item name="android:textAlignment">textStart</item>
+    <!-- Style for Author TextView -->
+    <style name="AuthorTextViewStyle" parent="@style/SectionAuthorDateStyle">
+        <item name="android:textColor">@color/color_author</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
-    <!-- * * * * * * * * * * * BOTTOM SHEET * * * * * * * * * * * * -->
-
-    <!-- BottomSheetDialog -->
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
-    </style>
-
-    <!-- ModalBottomSheet -->
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/rounded_dialog</item>
+    <!-- Style for Date TextView -->
+    <style name="DateTextViewStyle" parent="@style/SectionAuthorDateStyle">
+        <item name="android:textColor">@color/color_date_text</item>
     </style>
 
 </resources>

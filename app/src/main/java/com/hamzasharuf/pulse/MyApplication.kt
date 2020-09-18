@@ -1,13 +1,22 @@
 package com.hamzasharuf.pulse
 
 import android.app.Application
-import com.hamzasharuf.networkmonitor.ConnectivityStateHolder.registerConnectivityBroadcaster
+import android.util.Log
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
+import timber.log.Timber.DebugTree
+
 
 @HiltAndroidApp
 class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
-        registerConnectivityBroadcaster()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
+
     }
+
+
 }

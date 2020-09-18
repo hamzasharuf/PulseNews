@@ -1,91 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="item"
-            type="com.hamzasharuf.pulse.data.models.Article" />
+            type="com.hamzasharuf.pulse.data.models.News" />
+
         <variable
             name="clickListener"
             type="com.hamzasharuf.pulse.utils.adapters.lists.news.NewsClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_article_root"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{() -> clickListener.onClick(item)}"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="2dp">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{()-> clickListener.onClick(item)}"
+        card_view:cardCornerRadius="@dimen/card_corner_radius">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp">
+            android:padding="16dp"
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_article_source_image"
-                android:layout_width="@dimen/article_source_avatar_width"
-                android:layout_height="@dimen/article_source_avatar_height"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/aljazeera_icon" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_article_source_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@{item.source_name}"
-                style="@style/TextAppearance.ArticleSourceName"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_article_source_image"
-                app:layout_constraintStart_toEndOf="@+id/iv_article_source_image"
-                app:layout_constraintTop_toTopOf="@+id/iv_article_source_image"
-                tools:text="Aljazeera News" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_article_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_article_source_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/iv_article_source_image"
-                app:relativeDate="@{item.publishedAt}"
-                android:textSize="@dimen/article_relative_date_font_size"
-                tools:text="2 minutes ago"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_article_title"
+            <TextView
+                android:id="@+id/title_card"
+                style="@style/TitleTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_article_source_image"
-                android:layout_marginTop="16dp"
-                style="@style/TextAppearance.Body1"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
                 android:text="@{item.title}"
-                tools:text="The Quest to Liberate $300K of Bitcoin From an Old ZIP File" />
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:text="title" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_article_logo"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/details_layout"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="16dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_article_title"
-                app:imageLoad="@{item.urlToImage}"
-                tools:src="@drawable/fake_article_image" />
+                android:layout_height="wrap_content"
+                card_view:layout_constraintTop_toBottomOf="@+id/title_card">
+
+                <TextView
+                    android:id="@+id/section_card"
+                    style="@style/SectionTextViewStyle"
+                    android:layout_width="0dp"
+
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{item.section}"
+                    card_view:layout_constraintEnd_toStartOf="@+id/thumbnail_image_card"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    tools:text="section" />
+
+                <TextView
+                    android:id="@+id/trail_text_card"
+                    style="@style/TrailTextViewStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    htmlText="@{item.trailTextHtml}"
+                    card_view:layout_constraintEnd_toStartOf="@+id/thumbnail_image_card"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/section_card"
+                    tools:text="trailText" />
+
+                <ImageView
+                    android:id="@+id/thumbnail_image_card"
+                    imageLoad="@{item.thumbnail}"
+                    android:layout_width="@dimen/thumbnail_image_width"
+                    android:layout_height="@dimen/thumbnail_image_height"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@string/image_des"
+                    android:scaleType="centerCrop"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_launcher_background" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/author_card"
+                style="@style/AuthorTextViewStyle"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{item.authors}"
+                android:visibility="@{item.authors == null ? View.GONE : View.VISIBLE}"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@id/details_layout"
+                tools:text="author" />
+
+
+            <TextView
+                android:id="@+id/date_card"
+                style="@style/DateTextViewStyle"
+                relativeDate="@{item.date}"
+                android:layout_marginTop="8dp"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@id/author_card"
+                tools:text="date" />
+
+            <ImageView
+                android:id="@+id/share_image_card"
+                android:layout_width="@dimen/image_share"
+                android:layout_height="@dimen/image_share"
+                android:background="@drawable/image_button_style"
+                android:contentDescription="@string/image_des_ic_share"
+                android:src="@drawable/ic_share_black_18dp"
+                card_view:layout_constraintBottom_toBottomOf="@+id/date_card"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toTopOf="@+id/date_card" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
 </layout>
