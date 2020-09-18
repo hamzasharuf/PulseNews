@@ -1,6 +1,6 @@
 package com.hamzasharuf.pulse.data.api
 
 object NewsApiConfiguration {
-    const val BASE_URL = "https://newsapi.org/v2/"
-    const val API_KEY = "04aaea82d3a94de9b8d1094b59fa2013"
+    const val BASE_URL = "http://content.guardianapis.com/"
+    const val API_KEY = "1824ec30-dea5-4529-b437-b4f7f0234f42"
 }

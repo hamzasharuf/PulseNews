@@ -1,37 +1,25 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-
-    <dimen name="dimen_0dp">0dp</dimen>
-    <dimen name="dimen_1dp">1dp</dimen>
-    <dimen name="dimen_2dp">2dp</dimen>
-    <dimen name="dimen_20dp">20dp</dimen>
-    <dimen name="dimen_4dp">4dp</dimen>
-    <dimen name="dimen_5sp">5sp</dimen>
-    <dimen name="dimen_4sp">4sp</dimen>
-    <dimen name="dimen_10sp">10sp</dimen>
-    <dimen name="dimen_12sp">12sp</dimen>
-    <dimen name="dimen_14sp">14sp</dimen>
-    <dimen name="dimen_15sp">15sp</dimen>
-    <dimen name="dimen_16sp">16sp</dimen>
-    <dimen name="dimen_18sp">18sp</dimen>
-    <dimen name="dimen_20sp">20sp</dimen>
-    <dimen name="dimen_22sp">22sp</dimen>
-    <dimen name="dimen_24sp">24sp</dimen>
-    <dimen name="dimen_26sp">26sp</dimen>
-    <dimen name="dimen_230dp">230dp</dimen>
-    <dimen name="dimen_480dp">480dp</dimen>
-    <dimen name="elevation_16dp">16dp</dimen>
-    <dimen name="elevation_8dp">8dp</dimen>
-    <dimen name="elevation_4dp">4dp</dimen>
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 
-    <dimen name="article_source_avatar_width">30dp</dimen>
-    <dimen name="article_source_avatar_height">30dp</dimen>
-    <dimen name="article_source_name_font_size">12sp</dimen>
-    <dimen name="article_relative_date_font_size">13sp</dimen>
-    <dimen name="article_title_font_size">12sp</dimen>
+    <dimen name="padding">16dp</dimen>
+    <dimen name="layout_margin">16dp</dimen>
+    <dimen name="image_share">18dp</dimen>
+    <dimen name="padding_bottom_4">4dp</dimen>
+    <dimen name="layout_margin_4">4dp</dimen>
+    <dimen name="layout_margin_8">8dp</dimen>
+    <dimen name="layout_margin_5">5dp</dimen>
+    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="thumbnail_image_width">140dp</dimen>
+    <dimen name="thumbnail_image_height">120dp</dimen>
 
-    <dimen name="news_recycler_item_margins">10dp</dimen>
+    <dimen name="sp22">22sp</dimen>
+    <dimen name="sp16">16sp</dimen>
+    <dimen name="sp14">14sp</dimen>
+    <dimen name="sp20">20sp</dimen>
+    <dimen name="sp12">12sp</dimen>
+    <dimen name="sp24">24sp</dimen>
+    <dimen name="sp18">18sp</dimen>
 </resources>

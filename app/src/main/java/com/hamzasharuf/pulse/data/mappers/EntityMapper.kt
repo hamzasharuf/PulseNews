@@ -1,8 +1,8 @@
 package com.hamzasharuf.pulse.data.mappers
 
-interface EntityMapper<Entity, DomainModel> {
+interface EntityMapper<Local, Remote> {
 
-    fun mapFromEntity(entity: Entity): DomainModel
-    fun mapToEntity(domainModel: DomainModel): Entity
+    fun mapFromLocal(local: Local): Remote
+    fun mapToLocal(remote: Remote): Local
 
 }

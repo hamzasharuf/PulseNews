@@ -1,17 +1,90 @@
 package com.hamzasharuf.pulse.data.api
 
-import com.hamzasharuf.pulse.data.api.responses.everything.EverythingResponse
-import com.hamzasharuf.pulse.data.api.responses.source.SourcesResponse
+import com.hamzasharuf.pulse.data.api.responses.NewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.QueryMap
 
 interface NewsApi {
 
-    @GET("sources")
-    suspend fun getSources(@QueryMap request: Map<String, String>) : SourcesResponse
+    @GET("search")
+    suspend fun getAllNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+    ): NewsResponse
 
-    @GET("everything")
-    suspend fun getLatestNews(@QueryMap request: Map<String, String>): EverythingResponse
+    @GET("search")
+    suspend fun getWorldNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "world",
+    ): NewsResponse
+
+    @GET("search")
+    suspend fun getScienceNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "science",
+    ): NewsResponse
+
+    @GET("search")
+    suspend fun getSportNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "sport",
+    ): NewsResponse
+
+    @GET("search")
+    suspend fun getEnvironmentNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "environment",
+    ): NewsResponse
+
+    @GET("search")
+    suspend fun getSocietyNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "society",
+    ): NewsResponse
+
+    @GET("search")
+    suspend fun getFashionNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "fashion",
+    ): NewsResponse
+
+    @GET("search")
+    suspend fun getBusinessNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "business",
+    ): NewsResponse
+
+    @GET("search")
+    suspend fun getCultureNews(
+        @Query("page") page: Int,
+        @Query("page-size") pageSize: Int,
+        @Query("show-tags") showTags: String = "contributor",
+        @Query("show-fields") showFields: String = "all",
+        @Query("section") section: String = "culture",
+    ): NewsResponse
+
 
 }
