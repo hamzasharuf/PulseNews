@@ -1,4 +1,4 @@
-package com.hamzasharuf.pulse.utils
+package com.hamzasharuf.pulse.data.models
 
 enum class NewsSection(val page: Int, val sectionName: String) {
     HOME(0, "home"),
