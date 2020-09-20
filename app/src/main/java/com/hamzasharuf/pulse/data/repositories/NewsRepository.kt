@@ -2,48 +2,47 @@ package com.hamzasharuf.pulse.data.repositories
 
 import com.hamzasharuf.pulse.data.api.NewsApi
 import com.hamzasharuf.pulse.data.api.requests.NewsRequest
+import com.hamzasharuf.pulse.data.database.AppDatabase
 import com.hamzasharuf.pulse.data.mappers.NewsApiMapper
+import com.hamzasharuf.pulse.data.mappers.NewsDatabaseMapper
 import com.hamzasharuf.pulse.data.models.News
+import com.hamzasharuf.pulse.data.models.NewsSection
 import javax.inject.Inject
 
 class NewsRepository @Inject constructor(
     private val newsApi: NewsApi,
+    private val database: AppDatabase
 ){
 
-    suspend fun fetchAllNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getAllNews(request.page,request.pageSize))
-    }
+    // Fetch the data from the server
 
-    suspend fun fetchWorldNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getWorldNews(request.page,request.pageSize))
-    }
+    suspend fun fetchNews(request: NewsRequest, section: NewsSection): List<News> =
+        when(section){
+            NewsSection.HOME -> NewsApiMapper.mapToLocal(newsApi.getAllNews(request.page,request.pageSize))
+            else -> NewsApiMapper.mapToLocal(newsApi.getSectionNews(request.page,request.pageSize, section = section.sectionName))
+        }
 
-    suspend fun fetchScienceNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getScienceNews(request.page,request.pageSize))
-    }
 
-    suspend fun fetchSportNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getSportNews(request.page,request.pageSize))
-    }
+    // Insert into database
 
-    suspend fun fetchEnvironmentNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getEnvironmentNews(request.page,request.pageSize))
-    }
+    suspend fun insertNews(newsList: List<News>, section: NewsSection) =
+        database.newsDao.insert(NewsDatabaseMapper.mapFromLocalList(newsList, section.sectionName))
 
-    suspend fun fetchSocietyNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getSocietyNews(request.page,request.pageSize))
-    }
 
-    suspend fun fetchFashionNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getFashionNews(request.page,request.pageSize))
-    }
+    // Update the database
 
-    suspend fun fetchBusinessNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getBusinessNews(request.page,request.pageSize))
-    }
+    suspend fun updateNews(newsList: List<News>, section: NewsSection) =
+        database.newsDao.update(NewsDatabaseMapper.mapFromLocalList(newsList, section.sectionName), section.sectionName)
 
-    suspend fun fetchCultureNews(request: NewsRequest): List<News>{
-        return NewsApiMapper.mapToLocal(newsApi.getCultureNews(request.page,request.pageSize))
-    }
+
+    // Read from the database
+
+    suspend fun getNews(sectionName: String): List<News> =
+        NewsDatabaseMapper.mapToLocalList(database.newsDao.getNews(sectionName))
+
+
+    // Get Single item from the database
+    suspend fun getSingleItem(section: NewsSection) = database.newsDao.getSingleItem(section.sectionName)
+
 
 }
