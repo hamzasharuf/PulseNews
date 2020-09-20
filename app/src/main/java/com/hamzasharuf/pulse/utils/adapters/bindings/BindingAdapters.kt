@@ -1,6 +1,5 @@
 package com.hamzasharuf.pulse.utils.adapters.bindings
 
-import android.content.res.Configuration
 import android.os.Build
 import android.text.Html
 import android.widget.ImageView
@@ -8,7 +7,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.hamzasharuf.pulse.R
-import com.hamzasharuf.pulse.utils.DateFormatter
+import com.hamzasharuf.pulse.utils.common.DateFormatter
 
 /**
  * Load image from the network or cache with placeholder and error images

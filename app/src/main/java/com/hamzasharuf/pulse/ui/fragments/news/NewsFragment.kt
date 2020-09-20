@@ -1,8 +1,6 @@
-package com.hamzasharuf.pulse.ui.fragments
+package com.hamzasharuf.pulse.ui.fragments.news
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,36 +8,45 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hamzasharuf.pulse.R
-import com.hamzasharuf.pulse.databinding.FragmentHomeBinding
-import com.hamzasharuf.pulse.utils.MarginItemDecoration
-import com.hamzasharuf.pulse.utils.Status
+import com.hamzasharuf.pulse.data.models.NewsSection
+import com.hamzasharuf.pulse.databinding.FragmentNewsBinding
+import com.hamzasharuf.pulse.ui.activities.MainViewModel
 import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsAdapter
 import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsClickListener
+import com.hamzasharuf.pulse.utils.states.ScreenState
+import com.hamzasharuf.pulse.utils.states.Status
+import com.hamzasharuf.pulse.utils.view.MarginItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
-abstract class BaseArticlesFragment : Fragment() {
+@AndroidEntryPoint
+class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
 
-    lateinit var mAdapter: NewsAdapter
-    lateinit var binding: FragmentHomeBinding
-    val viewModel: BaseArticlesViewModel by viewModels()
+    companion object {
+        fun getInstance(section: NewsSection): NewsFragment = NewsFragment(section)
+    }
 
+    private lateinit var mAdapter: NewsAdapter
+    private lateinit var binding: FragmentNewsBinding
+    private val viewModel: NewsViewModel by viewModels()
+    private val sharedViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.d("onCreateView: onCreateView called")
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        sharedViewModel.setScreenState(ScreenState.NewsScreenState)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Timber.d("onActivityCreated: onActivityCreated called")
         setupRecycler()
         setupSwipeRefreshLayout()
         setupObservers()
@@ -60,7 +67,6 @@ abstract class BaseArticlesFragment : Fragment() {
                     Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
                 }
                 Status.LOADING -> {
-                    // binding.loadingIndicator.visibility = View.VISIBLE
                     binding.swipeRefresh.isRefreshing = true
                 }
             }
@@ -82,19 +88,22 @@ abstract class BaseArticlesFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-
         mAdapter = NewsAdapter(NewsClickListener {
-            // Direct to the details fragment
+            sharedViewModel.setScreenState(ScreenState.DetailsScreenState)
         })
 
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
             hasFixedSize()
-            addItemDecoration(MarginItemDecoration(16))
+            addItemDecoration(MarginItemDecoration(32))
             adapter = mAdapter
+            itemAnimator = DefaultItemAnimator()
         }
     }
 
-    abstract fun loadData(isRefreshing: Boolean)
+    private fun loadData(isRefreshing: Boolean) {
+            if (isRefreshing || !viewModel.isNewsAvailable)
+                viewModel.getNews(section)
+    }
 
 }

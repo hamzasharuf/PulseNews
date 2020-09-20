@@ -7,40 +7,62 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.viewpager.widget.ViewPager
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.*
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.databinding.ActivityMainBinding
-import com.hamzasharuf.pulse.utils.adapters.lists.news.CategoryFragmentPagerAdapter
 import com.hamzasharuf.pulse.utils.extensions.activityBinding
+import com.hamzasharuf.pulse.utils.states.ScreenState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import timber.log.Timber
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val binding: ActivityMainBinding by activityBinding(R.layout.activity_main)
-    private val viewModel: MainViewModel by viewModels()
-    lateinit var viewPager: ViewPager
+    private val sharedViewModel: MainViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.lifecycleOwner = this
         setSupportActionBar(binding.appBarLayout.toolbar)
-
-        setupViewPager()
+        setupBinding()
+        setupNavController()
+        setupObservers()
         setupDrawer()
-
     }
 
-    private fun setupViewPager() {
-        viewPager = binding.appBarLayout.contentMainLayout.viewpager
-        val tabLayout = binding.appBarLayout.slidingTabs
-        tabLayout.setupWithViewPager(viewPager)
-        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+    private fun setupBinding() {
+        binding.lifecycleOwner = this
+    }
 
-        val pagerAdapter = CategoryFragmentPagerAdapter(supportFragmentManager)
-        viewPager.adapter = pagerAdapter
+    private fun setupNavController() {
+        navController = findNavController(R.id.fragment_container)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        nav_view.setupWithNavController(navController)
+    }
+
+    private fun setupObservers() {
+        sharedViewModel.screenState.observe(this, {
+            when (it) {
+                ScreenState.NewsScreenState -> {
+
+                }
+                ScreenState.DetailsScreenState -> {
+                    navController.navigate(R.id.action_viewPagerFragment_to_newsDetailsFragment)
+                }
+                ScreenState.SettingsScreenState -> {
+                    navController.navigate(R.id.action_viewPagerFragment_to_settingsFragment)
+                }
+            }
+        })
     }
 
     private fun setupDrawer() {
@@ -53,9 +75,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         binding.navView.setNavigationItemSelectedListener(this)
         onNavigationItemSelected(binding.navView.menu.getItem(0).setChecked(true))
+
     }
 
     override fun onBackPressed() {
@@ -66,11 +88,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        viewPager.currentItem = viewModel.setNavigationPage(item.itemId)
-        binding.drawerLayout.closeDrawer(GravityCompat.START)
-        return true
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -80,12 +97,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.action_settings) {
-//            val settingsIntent = Intent(this, SettingsActivity::class.java)
-//            startActivity(settingsIntent)
+            navController.navigate(R.id.action_viewPagerFragment_to_settingsFragment)
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
+    /** Navigate to the selected page from the navigation drawer */
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val section = sharedViewModel.navigateToPagerSection(item.itemId)
+        if (sharedViewModel.screenState.value == ScreenState.NewsScreenState)
+            sharedViewModel.viewPager.currentItem = section.page
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    /** Navigate back to the previous fragment using back arrow */
+    override fun onSupportNavigateUp(): Boolean {
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
 
 }

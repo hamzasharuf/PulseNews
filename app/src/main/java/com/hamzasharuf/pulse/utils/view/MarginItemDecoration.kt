@@ -1,4 +1,4 @@
-package com.hamzasharuf.pulse.utils
+package com.hamzasharuf.pulse.utils.view
 
 import android.graphics.Rect
 import android.view.View

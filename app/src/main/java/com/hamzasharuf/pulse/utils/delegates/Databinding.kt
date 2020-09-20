@@ -1,4 +1,4 @@
-package me.tumur.portfolio.utils.delegates
+package com.hamzasharuf.pulse.utils.delegates
 
 import android.app.Activity
 import androidx.annotation.LayoutRes

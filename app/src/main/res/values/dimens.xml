@@ -11,7 +11,7 @@
     <dimen name="layout_margin_4">4dp</dimen>
     <dimen name="layout_margin_8">8dp</dimen>
     <dimen name="layout_margin_5">5dp</dimen>
-    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="thumbnail_image_width">140dp</dimen>
     <dimen name="thumbnail_image_height">120dp</dimen>
 

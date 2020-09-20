@@ -1,7 +1,6 @@
-package com.hamzasharuf.pulse.utils
+package com.hamzasharuf.pulse.utils.common
 
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 

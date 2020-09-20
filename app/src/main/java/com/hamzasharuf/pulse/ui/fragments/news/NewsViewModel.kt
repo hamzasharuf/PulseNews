@@ -1,20 +1,19 @@
-package com.hamzasharuf.pulse.ui.fragments
+package com.hamzasharuf.pulse.ui.fragments.news
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.hamzasharuf.pulse.data.api.requests.NewsRequest
 import com.hamzasharuf.pulse.data.models.News
+import com.hamzasharuf.pulse.data.models.NewsSection
 import com.hamzasharuf.pulse.data.repositories.NewsRepository
-import com.hamzasharuf.pulse.utils.NewsSection
-import com.hamzasharuf.pulse.utils.Resource
 import com.hamzasharuf.pulse.utils.exceptions.NoInternetException
+import com.hamzasharuf.pulse.utils.states.Resource
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 
-class BaseArticlesViewModel @ViewModelInject constructor(
+class NewsViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
     private val newsRepository: NewsRepository
 ) : ViewModel() {
@@ -27,24 +26,25 @@ class BaseArticlesViewModel @ViewModelInject constructor(
 
     fun getNews(section: NewsSection) {
         _allNews.postValue(Resource.loading())
+
         viewModelScope.launch(IO) {
             kotlin.runCatching {
-                val newsList = when(section){
-                    NewsSection.HOME -> newsRepository.fetchAllNews(NewsRequest())
-                    NewsSection.WORLD -> newsRepository.fetchWorldNews(NewsRequest())
-                    NewsSection.SCIENCE -> newsRepository.fetchScienceNews(NewsRequest())
-                    NewsSection.SPORT -> newsRepository.fetchSportNews(NewsRequest())
-                    NewsSection.ENVIRONMENT -> newsRepository.fetchEnvironmentNews(NewsRequest())
-                    NewsSection.SOCIETY -> newsRepository.fetchSocietyNews(NewsRequest())
-                    NewsSection.FASHION -> newsRepository.fetchFashionNews(NewsRequest())
-                    NewsSection.BUSINESS -> newsRepository.fetchBusinessNews(NewsRequest())
-                    NewsSection.CULTURE -> newsRepository.fetchCultureNews(NewsRequest())
+                val isCacheAvailable = checkCacheAvailability(section)
+                if (isCacheAvailable) {
+                    val cachedNews = newsRepository.getNews(section.sectionName)
+                    _allNews.postValue(Resource.success(cachedNews))
                 }
+                val newsList = newsRepository.fetchNews(NewsRequest(), section)
                 _allNews.postValue(Resource.success(newsList))
+
+                // Update the database with the new data
+                if (isCacheAvailable) newsRepository.updateNews(newsList, section)
+                else newsRepository.insertNews(newsList, section)
+
                 isNewsAvailable = true
             }.onFailure {
                 Timber.d("Error --> $it")
-                when(it){
+                when (it) {
                     is NoInternetException -> _allNews.postValue(Resource.error("No internet Connection"))
                     else -> _allNews.postValue(Resource.error("Something went wrong"))
                 }
@@ -52,6 +52,9 @@ class BaseArticlesViewModel @ViewModelInject constructor(
             }
         }
     }
+
+    private suspend fun checkCacheAvailability(section: NewsSection): Boolean =
+        !newsRepository.getSingleItem(section).isNullOrBlank()
 
 
 }

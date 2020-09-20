@@ -1,4 +1,4 @@
-package com.hamzasharuf.pulse.utils
+package com.hamzasharuf.pulse.utils.network
 
 import android.content.Context
 import android.net.ConnectivityManager

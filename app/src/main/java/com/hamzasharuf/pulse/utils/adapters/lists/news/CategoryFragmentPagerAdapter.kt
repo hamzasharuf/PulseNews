@@ -2,18 +2,16 @@ package com.hamzasharuf.pulse.utils.adapters.lists.news
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import com.hamzasharuf.pulse.ui.fragments.*
-import com.hamzasharuf.pulse.utils.NewsSection
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.hamzasharuf.pulse.data.models.NewsSection
+import com.hamzasharuf.pulse.ui.fragments.news.NewsFragment
 
-class CategoryFragmentPagerAdapter(fm: FragmentManager)
-    : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class CategoryFragmentPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle)
+    : FragmentStateAdapter(fm, lifecycle) {
 
-    override fun getItem(position: Int): Fragment =
-        NewsFragment(NewsSection.getItem(position))
+    override fun getItemCount(): Int = NewsSection.values().size
 
-    override fun getCount(): Int = NewsSection.values().size
+    override fun createFragment(position: Int): Fragment = NewsFragment(NewsSection.getItem(position))
 
-    override fun getPageTitle(position: Int): CharSequence =
-         NewsSection.getItem(position).sectionName
 }

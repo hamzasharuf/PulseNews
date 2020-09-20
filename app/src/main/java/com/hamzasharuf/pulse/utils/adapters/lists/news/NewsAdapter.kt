@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hamzasharuf.pulse.data.models.News
+import java.lang.IllegalArgumentException
 
 
 class NewsAdapter(private val clickListener: NewsClickListener)
@@ -16,7 +17,7 @@ class NewsAdapter(private val clickListener: NewsClickListener)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ARTICLE -> NewsViewHolder.from(parent)
-            else -> throw ClassCastException("Unknown viewType $viewType")
+            else -> throw IllegalArgumentException("Unknown viewType $viewType")
         }
     }
 
@@ -31,7 +32,7 @@ class NewsAdapter(private val clickListener: NewsClickListener)
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is News -> ARTICLE
-            else -> throw ClassCastException("Unknown Item ${getItem(position)}")
+            else -> throw IllegalArgumentException("Unknown Item ${getItem(position)}")
         }
     }
 
