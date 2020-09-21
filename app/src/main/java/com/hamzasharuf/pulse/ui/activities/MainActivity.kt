@@ -1,12 +1,8 @@
 package com.hamzasharuf.pulse.ui.activities
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -21,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.databinding.ActivityMainBinding
+import com.hamzasharuf.pulse.ui.NavigationSharedViewModel
 import com.hamzasharuf.pulse.utils.common.CommonFunctions.getActionBarSize
 import com.hamzasharuf.pulse.utils.extensions.activityBinding
 import com.hamzasharuf.pulse.utils.extensions.setGone
@@ -34,7 +31,7 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val binding: ActivityMainBinding by activityBinding(R.layout.activity_main)
-    private val sharedViewModel: MainViewModel by viewModels()
+    private val sharedViewModel: NavigationSharedViewModel by viewModels()
     private lateinit var navController: NavController
     private var tabLayoutHeight: Int = 0
     private var actionBarSize = 0
@@ -82,51 +79,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         sharedViewModel.screenState.observe(this, {
             when (it) {
                 ScreenState.NewsScreenState -> {
-//                    binding.appBarLayout.slidingTabs.setVisible()
                     if (!isHidden)
                         return@observe
-                    val anim = ValueAnimator.ofInt(
-                        actionBarSize,
-                        actionBarSize + tabLayoutHeight,
-                        )
-                    anim.addUpdateListener { valueAnimator ->
-                        val x = valueAnimator.animatedValue as Int
-                        val layoutParams: ViewGroup.LayoutParams =
-                            binding.appBarLayout.defaultAppbar.layoutParams
-                        layoutParams.height = x
-                        binding.appBarLayout.defaultAppbar.layoutParams = layoutParams
-                    }
-                    anim.addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            isHidden = false
-                        }
-                    })
-                    anim.duration = 350
-                    anim.start()
+                    MainAppBarAnimation()
+                        .initialHeight(actionBarSize)
+                        .finalHeight(actionBarSize + tabLayoutHeight)
+                        .duration(350)
+                        .applyAnimationOn(binding.appBarLayout.defaultAppbar)
+                        .onAnimationFinished { isHidden = false }
+                        .start()
+
                 }
                 ScreenState.DetailsScreenState -> {
                     navController.navigate(R.id.action_viewPagerFragment_to_newsDetailsFragment)
 
+                    MainAppBarAnimation()
+                        .initialHeight(actionBarSize + tabLayoutHeight)
+                        .finalHeight(actionBarSize)
+                        .duration(350)
+                        .applyAnimationOn(binding.appBarLayout.defaultAppbar)
+                        .onAnimationFinished { isHidden = true }
+                        .start()
 
-                    val anim = ValueAnimator.ofInt(
-                        binding.appBarLayout.defaultAppbar.getMeasuredHeight(), getActionBarSize(
-                            this
-                        )
-                    )
-                    anim.addUpdateListener { valueAnimator ->
-                        val x = valueAnimator.animatedValue as Int
-                        val layoutParams: ViewGroup.LayoutParams =
-                            binding.appBarLayout.defaultAppbar.layoutParams
-                        layoutParams.height = x
-                        binding.appBarLayout.defaultAppbar.layoutParams = layoutParams
-                    }
-                    anim.addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            isHidden = true
-                        }
-                    })
-                    anim.duration = 350
-                    anim.start()
 
                 }
                 ScreenState.SettingsScreenState -> {

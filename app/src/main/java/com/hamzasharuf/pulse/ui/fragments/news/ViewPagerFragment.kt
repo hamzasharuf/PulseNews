@@ -13,13 +13,13 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.data.models.NewsSection
 import com.hamzasharuf.pulse.databinding.FragmentViewPagerBinding
-import com.hamzasharuf.pulse.ui.activities.MainViewModel
+import com.hamzasharuf.pulse.ui.NavigationSharedViewModel
 import com.hamzasharuf.pulse.utils.adapters.lists.news.CategoryFragmentPagerAdapter
 
 class ViewPagerFragment : Fragment() {
 
     private val viewModel: ViewPagerViewModel by viewModels()
-    private val sharedViewModel: MainViewModel by activityViewModels()
+    private val sharedViewModel: NavigationSharedViewModel by activityViewModels()
     private lateinit var binding: FragmentViewPagerBinding
 
     override fun onCreateView(

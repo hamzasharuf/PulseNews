@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.databinding.FragmentNewsDetailsBinding
-import com.hamzasharuf.pulse.ui.activities.MainViewModel
+import com.hamzasharuf.pulse.ui.NavigationSharedViewModel
 import com.hamzasharuf.pulse.utils.states.ScreenState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +21,7 @@ class NewsDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentNewsDetailsBinding
     private val viewModel: NewsDetailsViewModel by viewModels()
-    private val sharedViewModel: MainViewModel by activityViewModels()
+    private val sharedViewModel: NavigationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,14 +34,18 @@ class NewsDetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback((object :
-            OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                sharedViewModel.setScreenState(ScreenState.NewsScreenState)
-                findNavController().popBackStack()
-            }
+        requireActivity().onBackPressedDispatcher.addCallback((onBackPressed))
+    }
 
-        }))
+    private val onBackPressed = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+
+            // TODO : Make sure the appbar animation finished before closing [Try to use: DetailsAppbarAnimationState.kt]
+            // TODO : Check the popBackStack before navigation to ensure it's not empty and that the previous fragment is the news fragment
+            sharedViewModel.setScreenState(ScreenState.NewsScreenState)
+            findNavController().popBackStack()
+        }
+
     }
 
 }

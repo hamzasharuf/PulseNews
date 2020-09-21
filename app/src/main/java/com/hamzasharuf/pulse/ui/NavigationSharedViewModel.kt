@@ -1,4 +1,4 @@
-package com.hamzasharuf.pulse.ui.activities
+package com.hamzasharuf.pulse.ui
 
 import androidx.hilt.Assisted
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import timber.log.Timber
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-class MainViewModel
+class NavigationSharedViewModel
 @Inject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {

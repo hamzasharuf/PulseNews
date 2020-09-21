@@ -1,8 +1,6 @@
 package com.hamzasharuf.pulse.ui.fragments.news
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.data.models.NewsSection
 import com.hamzasharuf.pulse.databinding.FragmentNewsBinding
-import com.hamzasharuf.pulse.ui.activities.MainViewModel
+import com.hamzasharuf.pulse.ui.NavigationSharedViewModel
 import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsAdapter
 import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsClickListener
 import com.hamzasharuf.pulse.utils.states.ScreenState
@@ -31,26 +26,20 @@ import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 
 @AndroidEntryPoint
 class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
 
-    companion object {
-        fun getInstance(section: NewsSection): NewsFragment = NewsFragment(section)
-    }
-
     private lateinit var mAdapter: NewsAdapter
     private lateinit var binding: FragmentNewsBinding
     private val viewModel: NewsViewModel by viewModels()
-    private val sharedViewModel: MainViewModel by activityViewModels()
+    private val sharedViewModel: NavigationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        sharedViewModel.setScreenState(ScreenState.NewsScreenState)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
         return binding.root
     }
