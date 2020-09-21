@@ -1,6 +1,8 @@
 package com.hamzasharuf.pulse.ui.fragments.news
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +12,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.data.models.NewsSection
 import com.hamzasharuf.pulse.databinding.FragmentNewsBinding
@@ -22,7 +25,14 @@ import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsClickListener
 import com.hamzasharuf.pulse.utils.states.ScreenState
 import com.hamzasharuf.pulse.utils.states.Status
 import com.hamzasharuf.pulse.utils.view.MarginItemDecoration
+import com.hamzasharuf.pulse.utils.view.SpeedyLinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_news.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import timber.log.Timber
+
 
 @AndroidEntryPoint
 class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
@@ -60,6 +70,17 @@ class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
                     binding.swipeRefresh.isRefreshing = false
                     binding.loadingIndicator.visibility = View.GONE
                     mAdapter.submitList(it.data)
+
+                    GlobalScope.launch {
+                        delay(1000)
+                        kotlin.runCatching {
+                            // If the user changes the tab before scrolling, it won't crash
+                            recycler_view.smoothScrollToPosition(0)
+                        }
+
+                    }
+
+
                 }
                 Status.ERROR -> {
                     binding.swipeRefresh.isRefreshing = false
@@ -93,7 +114,7 @@ class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
         })
 
         with(binding.recyclerView) {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = SpeedyLinearLayoutManager(requireContext())
             hasFixedSize()
             addItemDecoration(MarginItemDecoration(32))
             adapter = mAdapter

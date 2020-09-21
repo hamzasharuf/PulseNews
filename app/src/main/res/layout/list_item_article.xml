@@ -27,103 +27,97 @@
         card_view:cardCornerRadius="@dimen/card_corner_radius">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/root_layout"
             android:layout_width="match_parent"
-            android:padding="16dp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/title_card"
-                style="@style/TitleTextViewStyle"
+            <LinearLayout
+                android:id="@+id/root_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{item.title}"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textStyle="bold"
+                android:orientation="vertical"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent"
-                tools:text="title" />
+                card_view:layout_constraintTop_toTopOf="parent">
 
+                <ImageView
+                    android:id="@+id/thumbnail_image_card"
+                    imageLoad="@{item.thumbnail}"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/image_des"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/ic_launcher_background" />
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:layout_constraintTop_toBottomOf="@+id/title_card">
+                android:padding="16dp"
+                card_view:layout_constraintTop_toBottomOf="@id/root_layout"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/title_card"
+                    style="@style/TitleTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{item.title}"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textStyle="bold"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    tools:text="title" />
 
                 <TextView
                     android:id="@+id/section_card"
                     style="@style/SectionTextViewStyle"
-                    android:layout_width="0dp"
-
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_width="wrap_content"
                     android:text="@{item.section}"
-                    card_view:layout_constraintEnd_toStartOf="@+id/thumbnail_image_card"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/date_card"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="@+id/date_card"
                     tools:text="section" />
+
+                <TextView
+                    android:id="@+id/date_card"
+                    style="@style/DateTextViewStyle"
+                    relativeDate="@{item.date}"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@id/title_card"
+                    tools:text="date" />
 
                 <TextView
                     android:id="@+id/trail_text_card"
                     style="@style/TrailTextViewStyle"
+                    htmlText="@{item.trailTextHtml}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    htmlText="@{item.trailTextHtml}"
-                    card_view:layout_constraintEnd_toStartOf="@+id/thumbnail_image_card"
+                    card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/section_card"
+                    card_view:layout_constraintTop_toBottomOf="@+id/date_card"
                     tools:text="trailText" />
 
-                <ImageView
-                    android:id="@+id/thumbnail_image_card"
-                    imageLoad="@{item.thumbnail}"
-                    android:layout_width="@dimen/thumbnail_image_width"
-                    android:layout_height="@dimen/thumbnail_image_height"
+
+                <TextView
+                    android:id="@+id/author_card"
+                    style="@style/AuthorTextViewStyle"
                     android:layout_marginTop="8dp"
-                    android:contentDescription="@string/image_des"
-                    android:scaleType="centerCrop"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_launcher_background" />
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{item.authors}"
+                    android:visibility="@{item.authors == null ? View.GONE : View.VISIBLE}"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@id/trail_text_card"
+                    tools:text="author" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <TextView
-                android:id="@+id/author_card"
-                style="@style/AuthorTextViewStyle"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@{item.authors}"
-                android:visibility="@{item.authors == null ? View.GONE : View.VISIBLE}"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@id/details_layout"
-                tools:text="author" />
-
-
-            <TextView
-                android:id="@+id/date_card"
-                style="@style/DateTextViewStyle"
-                relativeDate="@{item.date}"
-                android:layout_marginTop="8dp"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@id/author_card"
-                tools:text="date" />
-
-            <ImageView
-                android:id="@+id/share_image_card"
-                android:layout_width="@dimen/image_share"
-                android:layout_height="@dimen/image_share"
-                android:background="@drawable/image_button_style"
-                android:contentDescription="@string/image_des_ic_share"
-                android:src="@drawable/ic_share_black_18dp"
-                card_view:layout_constraintBottom_toBottomOf="@+id/date_card"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toTopOf="@+id/date_card" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
