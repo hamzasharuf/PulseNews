@@ -18,6 +18,6 @@ abstract class AppDatabase: RoomDatabase() {
 
 companion object{
     const val DATABASE_NAME = "news.db"
-    const val DATABASE_VERSION = 3
+    const val DATABASE_VERSION = 4
 }
 }

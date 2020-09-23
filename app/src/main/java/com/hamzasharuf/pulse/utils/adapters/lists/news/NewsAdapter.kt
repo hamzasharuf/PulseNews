@@ -23,7 +23,7 @@ class NewsAdapter(private val clickListener: NewsClickListener)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
-            is NewsViewHolder -> holder.bind(getItem(position), clickListener)
+            is NewsViewHolder -> holder.bind(getItem(position), clickListener, position)
         }
 
 

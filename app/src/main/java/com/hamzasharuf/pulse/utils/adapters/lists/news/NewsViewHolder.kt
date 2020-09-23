@@ -9,9 +9,10 @@ import com.hamzasharuf.pulse.databinding.ListItemArticleBinding
 class NewsViewHolder private constructor(val binding: ListItemArticleBinding) :
 
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: News, clickListener: NewsClickListener) {
+    fun bind(item: News, clickListener: NewsClickListener, position: Int) {
         binding.clickListener = clickListener
         binding.item = item
+        binding.position = position
         binding.executePendingBindings()
     }
 

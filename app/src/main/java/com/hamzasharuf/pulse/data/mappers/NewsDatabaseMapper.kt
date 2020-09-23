@@ -14,6 +14,7 @@ object NewsDatabaseMapper {
             entity.url,
             entity.thumbnail,
             entity.trailTextHtml,
+            entity.articleBody
         )
 
     fun mapFromLocal(sectionName: String, news: News) =
@@ -25,7 +26,8 @@ object NewsDatabaseMapper {
             news.url,
             news.thumbnail,
             news.trailTextHtml,
-            sectionName
+            sectionName,
+            news.articleBody
         )
 
 

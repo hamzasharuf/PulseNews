@@ -19,6 +19,7 @@ fun loadImage(imageView: ImageView, url: String?) {
         .centerCrop()
         .placeholder(R.color.gray)
         .into(imageView)
+
 }
 
 /**

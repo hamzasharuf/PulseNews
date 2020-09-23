@@ -1,5 +1,6 @@
 package com.hamzasharuf.pulse.data.database.Entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hamzasharuf.pulse.data.database.Entities.NewsDatabaseEntity.Companion.TABLE_NAME
@@ -15,6 +16,7 @@ data class NewsDatabaseEntity(
     val thumbnail: String,
     val trailTextHtml: String,
     val sectionName: String,
+    @ColumnInfo(name = "article_body")val articleBody: String,
 ){
     companion object{
         const val TABLE_NAME = "news"
