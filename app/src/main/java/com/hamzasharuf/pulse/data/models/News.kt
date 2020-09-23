@@ -21,7 +21,4 @@ data class News(
     val thumbnail: String,
     val trailTextHtml: String,
     val articleBody: String,
-    var thumbnailBitmap: Bitmap? = null
-) : Parcelable{
-
-}
+) : Parcelable

@@ -2,7 +2,6 @@ package com.hamzasharuf.pulse.data.repositories
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.hamzasharuf.pulse.data.api.BitmapLoaderApi
 import com.hamzasharuf.pulse.data.api.NewsApi
 import com.hamzasharuf.pulse.data.api.requests.NewsRequest
 import com.hamzasharuf.pulse.data.database.AppDatabase
@@ -10,12 +9,10 @@ import com.hamzasharuf.pulse.data.mappers.NewsApiMapper
 import com.hamzasharuf.pulse.data.mappers.NewsDatabaseMapper
 import com.hamzasharuf.pulse.data.models.News
 import com.hamzasharuf.pulse.data.models.NewsSection
-import com.hamzasharuf.pulse.utils.common.CommonFunctions.byteArrayToBitmap
 import javax.inject.Inject
 
 class NewsRepository @Inject constructor(
     private val newsApi: NewsApi,
-    private val bitmapLoaderApi: BitmapLoaderApi,
     private val database: AppDatabase,
 ){
 
@@ -48,11 +45,5 @@ class NewsRepository @Inject constructor(
 
     // Get Single item from the database
     suspend fun getSingleItem(section: NewsSection) = database.newsDao.getSingleItem(section.sectionName)
-
-    suspend fun getBitmap(url:String): Bitmap{
-        val bytes = bitmapLoaderApi.getImageData(url).bytes()
-        return byteArrayToBitmap(bytes)
-    }
-
 
 }

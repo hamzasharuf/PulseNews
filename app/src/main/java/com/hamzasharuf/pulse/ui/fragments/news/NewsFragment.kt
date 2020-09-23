@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
@@ -106,14 +105,21 @@ class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
 
     private fun setupRecycler() {
         mAdapter = NewsAdapter(NewsClickListener { article: News, position: Int ->
-        val viewGroup = recycler_view.layoutManager?.findViewByPosition(position) as ViewGroup
-            val image: ImageView = viewGroup.findViewById(R.id.thumbnail_image_card)
+
+            val viewGroup = recycler_view.layoutManager?.findViewByPosition(position) as ViewGroup
+
+            val image = viewGroup.findViewById(R.id.thumbnail_image_card) as View
+            val titleTextView = viewGroup.findViewById(R.id.title_card) as View
+
+            val imagePair = androidx.core.util.Pair.create(image, resources.getString(R.string.article_thumbnail_shared_element_transition_tag))
+            val titlePair = androidx.core.util.Pair.create(titleTextView,resources.getString(R.string.article_title_shared_element_transition_tag))
+
             val intent = Intent(requireActivity(), DetailsActivity::class.java)
             val options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(
                     requireActivity(),
-                    image,
-                    resources.getString(R.string.article_thumbnail_shared_element_transition_tag)
+                    imagePair,
+                    titlePair,
                 )
             intent.putExtra(ARTICLE_INTENT_TAG, article)
             startActivity(intent, options.toBundle())
@@ -129,8 +135,8 @@ class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
     }
 
     private fun loadData(isRefreshing: Boolean) {
-            if (isRefreshing || !viewModel.isNewsAvailable)
-                viewModel.getNews(section)
+        if (isRefreshing || !viewModel.isNewsAvailable)
+            viewModel.getNews(section)
     }
 
 }
