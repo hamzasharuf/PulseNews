@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -19,6 +19,9 @@
 
         <!-- Change Action Bar overflow icon (Options Menu button) color -->
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
+
+        <!-- Enable shared element transition -->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -91,5 +94,6 @@
     <style name="DateTextViewStyle" parent="@style/SectionAuthorDateStyle">
         <item name="android:textColor">@color/color_date_text</item>
     </style>
+
 
 </resources>

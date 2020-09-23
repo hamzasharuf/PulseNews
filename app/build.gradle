@@ -87,6 +87,9 @@ dependencies {
     // Timber (For Logging)
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    // Palette (For catching colors from images)
+    implementation 'androidx.palette:palette:1.0.0'
+
     // Testing
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

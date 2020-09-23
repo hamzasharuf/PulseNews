@@ -3,28 +3,23 @@ package com.hamzasharuf.pulse.ui.activities
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.hamzasharuf.pulse.R
+import com.hamzasharuf.pulse.data.models.NewsSection
 import com.hamzasharuf.pulse.databinding.ActivityMainBinding
 import com.hamzasharuf.pulse.ui.NavigationSharedViewModel
-import com.hamzasharuf.pulse.utils.common.CommonFunctions.getActionBarSize
+import com.hamzasharuf.pulse.utils.adapters.lists.news.CategoryFragmentPagerAdapter
 import com.hamzasharuf.pulse.utils.extensions.activityBinding
-import com.hamzasharuf.pulse.utils.extensions.setGone
-import com.hamzasharuf.pulse.utils.states.ScreenState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
+import kotlinx.android.synthetic.main.fragment_view_pager.*
+import kotlinx.android.synthetic.main.toolbar_tab_layout.*
 
 
 @AndroidEntryPoint
@@ -32,103 +27,53 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private val binding: ActivityMainBinding by activityBinding(R.layout.activity_main)
     private val sharedViewModel: NavigationSharedViewModel by viewModels()
-    private lateinit var navController: NavController
-    private var tabLayoutHeight: Int = 0
-    private var actionBarSize = 0
-    private var isHidden: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.appBarLayout.toolbar)
         setupBinding()
-        setupNavController()
         setupObservers()
+        setupViewPager()
         setupDrawer()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val preDrawListener = object : ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw(): Boolean {
-                binding.appBarLayout.slidingTabs.viewTreeObserver.removeOnPreDrawListener(this)
-                // code which requires view size parameters
-                tabLayoutHeight = binding.appBarLayout.slidingTabs.height
-                actionBarSize = getActionBarSize(this@MainActivity)
-                Timber.d("hhhhhhhh --> Height calculated = $tabLayoutHeight")
-                Timber.d("hhhhhhhh --> Actionbar size = $actionBarSize")
-                return true
-            }
-        }
-        binding.appBarLayout.slidingTabs.viewTreeObserver.addOnPreDrawListener(preDrawListener)
     }
 
     private fun setupBinding() {
         binding.lifecycleOwner = this
-
-    }
-
-    private fun setupNavController() {
-        navController = findNavController(R.id.fragment_container)
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        nav_view.setupWithNavController(navController)
+        setSupportActionBar(toolbar)
     }
 
     private fun setupObservers() {
-        sharedViewModel.screenState.observe(this, {
-            when (it) {
-                ScreenState.NewsScreenState -> {
-                    if (!isHidden)
-                        return@observe
-                    MainAppBarAnimation()
-                        .initialHeight(actionBarSize)
-                        .finalHeight(actionBarSize + tabLayoutHeight)
-                        .duration(350)
-                        .applyAnimationOn(binding.appBarLayout.defaultAppbar)
-                        .onAnimationFinished { isHidden = false }
-                        .start()
 
-                }
-                ScreenState.DetailsScreenState -> {
-                    navController.navigate(R.id.action_viewPagerFragment_to_newsDetailsFragment)
-
-                    MainAppBarAnimation()
-                        .initialHeight(actionBarSize + tabLayoutHeight)
-                        .finalHeight(actionBarSize)
-                        .duration(350)
-                        .applyAnimationOn(binding.appBarLayout.defaultAppbar)
-                        .onAnimationFinished { isHidden = true }
-                        .start()
-
-
-                }
-                ScreenState.SettingsScreenState -> {
-                    navController.navigate(R.id.action_viewPagerFragment_to_settingsFragment)
-                    binding.appBarLayout.slidingTabs.setGone()
-                }
-            }
-        })
     }
 
     private fun setupDrawer() {
         val toggle = ActionBarDrawerToggle(
             this,
-            binding.drawerLayout,
-            binding.appBarLayout.toolbar,
+            drawer_layout,
+            toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        binding.drawerLayout.addDrawerListener(toggle)
+        drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-        binding.navView.setNavigationItemSelectedListener(this)
-        onNavigationItemSelected(binding.navView.menu.getItem(0).setChecked(true))
+        nav_view.setNavigationItemSelectedListener(this)
+        onNavigationItemSelected(nav_view.menu.getItem(0).setChecked(true))
 
     }
 
+    private fun setupViewPager() {
+        viewpager.adapter = CategoryFragmentPagerAdapter(supportFragmentManager , lifecycle)
+        TabLayoutMediator(tablayout, viewpager) { tab, position ->
+            tab.text = NewsSection.getItem(position).sectionName
+            viewpager.setCurrentItem(tab.position, true)
+        }.attach()
+        tablayout.tabGravity = TabLayout.GRAVITY_FILL
+    }
+
+
     override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -143,7 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.action_settings) {
-            navController.navigate(R.id.action_viewPagerFragment_to_settingsFragment)
+            // TODO : Navigate to Settings Activity
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -152,16 +97,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     /** Navigate to the selected page from the navigation drawer */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val section = sharedViewModel.navigateToPagerSection(item.itemId)
-        if (sharedViewModel.screenState.value == ScreenState.NewsScreenState)
-            sharedViewModel.viewPager.currentItem = section.page
-        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        viewpager.currentItem = section.page
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    /** Navigate back to the previous fragment using back arrow */
-    override fun onSupportNavigateUp(): Boolean {
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
 }

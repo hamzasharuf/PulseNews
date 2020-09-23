@@ -57,6 +57,5 @@ class NavigationSharedViewModel
             else -> throw IllegalArgumentException("Can't find tab with id: $id")
         }
 
-    lateinit var viewPager: ViewPager2
 
 }

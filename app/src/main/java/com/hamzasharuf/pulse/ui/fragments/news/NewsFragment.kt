@@ -1,10 +1,13 @@
 package com.hamzasharuf.pulse.ui.fragments.news
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -12,12 +15,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.hamzasharuf.pulse.R
+import com.hamzasharuf.pulse.data.models.News
 import com.hamzasharuf.pulse.data.models.NewsSection
 import com.hamzasharuf.pulse.databinding.FragmentNewsBinding
 import com.hamzasharuf.pulse.ui.NavigationSharedViewModel
+import com.hamzasharuf.pulse.ui.activities.details.DetailsActivity
 import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsAdapter
 import com.hamzasharuf.pulse.utils.adapters.lists.news.NewsClickListener
-import com.hamzasharuf.pulse.utils.states.ScreenState
+import com.hamzasharuf.pulse.utils.common.Constants.ARTICLE_INTENT_TAG
+import com.hamzasharuf.pulse.utils.extensions.timber
 import com.hamzasharuf.pulse.utils.states.Status
 import com.hamzasharuf.pulse.utils.view.MarginItemDecoration
 import com.hamzasharuf.pulse.utils.view.SpeedyLinearLayoutManager
@@ -75,6 +81,7 @@ class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
                     binding.swipeRefresh.isRefreshing = false
                     binding.loadingIndicator.visibility = View.GONE
                     Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
+                    timber(it.toString())
                 }
                 Status.LOADING -> {
                     binding.swipeRefresh.isRefreshing = true
@@ -98,8 +105,18 @@ class NewsFragment(val section: NewsSection = NewsSection.HOME) : Fragment() {
     }
 
     private fun setupRecycler() {
-        mAdapter = NewsAdapter(NewsClickListener {
-            sharedViewModel.setScreenState(ScreenState.DetailsScreenState)
+        mAdapter = NewsAdapter(NewsClickListener { article: News, position: Int ->
+        val viewGroup = recycler_view.layoutManager?.findViewByPosition(position) as ViewGroup
+            val image: ImageView = viewGroup.findViewById(R.id.thumbnail_image_card)
+            val intent = Intent(requireActivity(), DetailsActivity::class.java)
+            val options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(
+                    requireActivity(),
+                    image,
+                    resources.getString(R.string.article_thumbnail_shared_element_transition_tag)
+                )
+            intent.putExtra(ARTICLE_INTENT_TAG, article)
+            startActivity(intent, options.toBundle())
         })
 
         with(binding.recyclerView) {
