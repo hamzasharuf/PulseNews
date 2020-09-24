@@ -21,7 +21,7 @@ object NewsApiMapper {
                         it.webUrl!!,
                         it.fields!!.thumbnail!!,
                         it.fields.trailText!!,
-                        it.fields.bodyText!!
+                        it.fields.body!!
                     )
                 )
 
@@ -38,7 +38,7 @@ object NewsApiMapper {
             if (webPublicationDate.isNullOrBlank()) return@isValid false
             if (webUrl.isNullOrBlank()) return@isValid false
             if (fields?.thumbnail == null || fields.trailText == null) return@isValid false
-            if (fields.bodyText == null) return@isValid false
+            if (fields.body == null) return@isValid false
             return@isValid true
         }
     }
