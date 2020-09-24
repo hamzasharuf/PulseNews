@@ -3,9 +3,10 @@ package com.hamzasharuf.pulse.ui.activities.details
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import androidx.databinding.DataBindingUtil
 import com.hamzasharuf.pulse.R
 import com.hamzasharuf.pulse.data.models.News
+import com.hamzasharuf.pulse.databinding.ActivityDetailsBinding
 import com.hamzasharuf.pulse.utils.common.Constants.ARTICLE_INTENT_TAG
 import com.hamzasharuf.pulse.utils.extensions.timber
 import kotlinx.android.synthetic.main.activity_details.*
@@ -13,31 +14,21 @@ import kotlinx.android.synthetic.main.activity_details.*
 class DetailsActivity : AppCompatActivity() {
 
     private lateinit var article: News
+    private lateinit var binding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_details)
         receiveData()
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
-        timber("Hello")
     }
 
     private fun receiveData() {
         kotlin.runCatching {
             article = intent.getParcelableExtra(ARTICLE_INTENT_TAG)!!
-            Glide.with(this)
-                .load(article.thumbnail)
-                .into(expandedImage)
-
-            article_title.text = article.title
-            date_and_time.text = article.date
-            section_name.text = article.section
-            authors_names.text = article.authors
-            article_content.text = article.articleBody
-
-
+            binding.item = article
         }.onFailure {
             // TODO : Do something
             timber(it.message.toString())
